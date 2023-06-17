@@ -71,11 +71,12 @@ class Applicationsmodel extends CI_Model {
     }
 
     public function getApplicantJobTestsResults($application_id) {
-        $query = $this->db->query("SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
+        $sql = "SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
                                     FROM `applications_testsubmissions` 
                                     INNER JOIN jobs_jobtests ON jobs_jobtests.`test_id`=applications_testsubmissions.`test_id`
-                                    WHERE `application_id`=$application_id
-                                    GROUP BY `test_id`");
+                                    WHERE `application_id`= ?
+                                    GROUP BY `test_id`";
+        $query = $this->db->query($sql, array($application_id));
         return $query->result();
     }
 
@@ -155,20 +156,22 @@ class Applicationsmodel extends CI_Model {
     }
 
     public function getJobApplicationWithId($application_id) {
-        $query = $this->db->query("SELECT applications_applications.*, jobs_joblistings.`job_title`
+        $sql = "SELECT applications_applications.*, jobs_joblistings.`job_title`
                             FROM `applications_applications`
                             INNER JOIN jobs_joblistings ON jobs_joblistings.`job_id`=applications_applications.`job_id`
-                            WHERE applications_applications.`application_id`=$application_id AND applications_applications.`deletion_status`='FALSE'
-                            ORDER BY applications_applications.`application_id` DESC");
+                            WHERE applications_applications.`application_id`= ? AND applications_applications.`deletion_status`='FALSE'
+                            ORDER BY applications_applications.`application_id` DESC";
+        $query = $this->db->query($sql, array($application_id));
         return $query->result();
     }
 
     public function getJobListingApplications($job_id) {
-        $query = $this->db->query("SELECT applications_applications.*, jobs_joblistings.`job_title`
+        $sql = "SELECT applications_applications.*, jobs_joblistings.`job_title`
                             FROM `applications_applications`
                             INNER JOIN jobs_joblistings ON jobs_joblistings.`job_id`=applications_applications.`job_id`
-                            WHERE applications_applications.`job_id`=$job_id AND applications_applications.`deletion_status`='FALSE'
-                            ORDER BY applications_applications.`application_id` DESC");
+                            WHERE applications_applications.`job_id`= ? AND applications_applications.`deletion_status`='FALSE'
+                            ORDER BY applications_applications.`application_id` DESC";
+        $query = $this->db->query($sql, array($job_id));
         return $query->result();
     }
 
@@ -192,5 +195,4 @@ class Applicationsmodel extends CI_Model {
         ));
         return $query->result();
     }
-
 }
