@@ -67,8 +67,6 @@ class Main extends CI_Controller {
     }
 
     public function sendApplication() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
 
         $this->form_validation->set_rules('fname', 'fname', 'required');
         $this->form_validation->set_rules('lname', 'lname', 'required');
@@ -94,8 +92,6 @@ class Main extends CI_Controller {
     }
 
     public function addInterviewTestSubmission() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
 
         $this->form_validation->set_rules('interview_question_answer', 'interview_question_answer', 'required');
 
@@ -129,5 +125,4 @@ class Main extends CI_Controller {
             echo 'There was a problem submitting the answer, please try again later';
         }
     }
-
 }

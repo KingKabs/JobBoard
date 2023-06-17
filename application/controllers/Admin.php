@@ -73,9 +73,7 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function addJob() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+    public function addJob() {      
 
         $this->form_validation->set_rules('job_title', 'job_title', 'required');
         $this->form_validation->set_rules('opening_date', 'opening_date', 'required');
@@ -93,9 +91,7 @@ class Admin extends CI_Controller {
     }
 
     public function addJobTest() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-
+        
         $this->form_validation->set_rules('test_name', 'test_name', 'required');
         $this->form_validation->set_rules('test_description', 'test_description', 'required');
         $this->form_validation->set_rules('pass_mark', 'pass_mark', 'required');
@@ -112,9 +108,7 @@ class Admin extends CI_Controller {
     }
 
     public function addJobTestQuestion() {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-
+        
         $this->form_validation->set_rules('test_id', 'test_id', 'required');
         $this->form_validation->set_rules('question', 'question', 'required');
         $this->form_validation->set_rules('answer_set', 'answer_set', 'required');

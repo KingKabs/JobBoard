@@ -106,7 +106,7 @@ class Applicationsmodel extends CI_Model {
                                     INNER JOIN jobs_jobtests ON jobs_jobtests.`test_id`=applications_testsubmissions.`test_id`
                                     WHERE applications_testsubmissions.`test_id`= ?
                                     GROUP BY applications_testsubmissions.`application_id`
-                                    HAVING totalScore>pass_mark";
+                                    HAVING totalScore>=pass_mark";
         $query = $this->db->query($sql, array($test_id));
         return $query->result();
     }

@@ -94,7 +94,7 @@
                                     <td><?php echo $test->totalScore . "%"; ?></td>
                                     <td>
                                         <?php
-                                        if ($test->totalScore > $test->pass_mark) {
+                                        if ($test->totalScore >= $test->pass_mark) {
                                             echo "<label class='badge badge-success'>PASS</label>";
                                         } else {
                                             echo "<label class='badge badge-danger'>FAIL</label>";
