@@ -81,41 +81,45 @@ class Applicationsmodel extends CI_Model {
     }
 
     public function getJobTestsResultsWithApplicantionId($application_id, $test_id) {
-        $query = $this->db->query("SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
+        $sql = "SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
                                     FROM `applications_testsubmissions` 
                                     INNER JOIN jobs_jobtests ON jobs_jobtests.`test_id`=applications_testsubmissions.`test_id`
-                                    WHERE `application_id`=$application_id AND applications_testsubmissions.`test_id`=$test_id");
+                                    WHERE `application_id`= ? AND applications_testsubmissions.`test_id`= ?";
+        $query = $this->db->query($sql, array($application_id, $test_id));
         return $query->result();
     }
 
     public function getJobTestsApplicants($job_id) {
-        $query = $this->db->query("SELECT applications_testsubmissions.`test_id`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, jobs_jobtests.`level`, COUNT(DISTINCT(`application_id`)) AS totalApplicants
+        $sql = "SELECT applications_testsubmissions.`test_id`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, jobs_jobtests.`level`, COUNT(DISTINCT(`application_id`)) AS totalApplicants
                                     FROM applications_testsubmissions
                                     INNER JOIN jobs_jobtests ON jobs_jobtests.`test_id`=applications_testsubmissions.`test_id`
-                                    WHERE jobs_jobtests.`job_id`=$job_id
-                                    GROUP BY `test_id`");
+                                    WHERE jobs_jobtests.`job_id`= ?
+                                    GROUP BY `test_id`";
+        $query = $this->db->query($sql, array($job_id));
         return $query->result();
     }
 
     public function getApplicantsJobTestsResultsPASS($test_id) {
-        $query = $this->db->query("SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, applications_applications.`fname`, applications_applications.`lname`, applications_applications.`email`, applications_applications.`phone`, applications_applications.`application_date`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
+        $sql = "SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, applications_applications.`fname`, applications_applications.`lname`, applications_applications.`email`, applications_applications.`phone`, applications_applications.`application_date`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
                                     FROM `applications_testsubmissions`
                                     INNER JOIN applications_applications ON applications_applications.`application_id`=applications_testsubmissions.`application_id`
                                     INNER JOIN jobs_jobtests ON jobs_jobtests.`test_id`=applications_testsubmissions.`test_id`
-                                    WHERE applications_testsubmissions.`test_id`=$test_id
+                                    WHERE applications_testsubmissions.`test_id`= ?
                                     GROUP BY applications_testsubmissions.`application_id`
-                                    HAVING totalScore>pass_mark");
+                                    HAVING totalScore>pass_mark";
+        $query = $this->db->query($sql, array($test_id));
         return $query->result();
     }
 
     public function getApplicantsJobTestsResultsFAIL($test_id) {
-        $query = $this->db->query("SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, applications_applications.`fname`, applications_applications.`lname`, applications_applications.`email`, applications_applications.`phone`, applications_applications.`application_date`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
+        $sql = "SELECT applications_testsubmissions.`application_id`, applications_testsubmissions.`test_id`, applications_applications.`fname`, applications_applications.`lname`, applications_applications.`email`, applications_applications.`phone`, applications_applications.`application_date`, jobs_jobtests.`test_name`, jobs_jobtests.`pass_mark`, SUM(`score`) AS totalScore
                                     FROM `applications_testsubmissions`
                                     INNER JOIN applications_applications ON applications_applications.`application_id`=applications_testsubmissions.`application_id`
                                     INNER JOIN jobs_jobtests ON jobs_jobtests.`test_id`=applications_testsubmissions.`test_id`
-                                    WHERE applications_testsubmissions.`test_id`=$test_id
+                                    WHERE applications_testsubmissions.`test_id`= ?
                                     GROUP BY applications_testsubmissions.`application_id`
-                                    HAVING totalScore<pass_mark");
+                                    HAVING totalScore<pass_mark";
+        $query = $this->db->query($sql, array($test_id));
         return $query->result();
     }
 
