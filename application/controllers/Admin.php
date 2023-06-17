@@ -5,19 +5,15 @@ class Admin extends CI_Controller {
     public function __construct() {
         parent::__construct();
         date_default_timezone_set('Africa/Nairobi');
+        $this->checkAuth();
         $this->load->model('Adminmodel');
         $this->load->model('Applicationsmodel');
     }
 
     public function admin_dashboard() {
-        $loggedIn = $this->session->userdata('jobsportaladminlogged_in');
-        if ($loggedIn !== NULL) {
-            $data['alljobs'] = $this->Adminmodel->getAllJobs();
-            $data['content'] = 'admin/admin_dashboard';
-            $this->load->view('templates/template_admin', $data);
-        } else {
-            redirect('login/adminloginPage');
-        }
+        $data['alljobs'] = $this->Adminmodel->getAllJobs();
+        $data['content'] = 'admin/admin_dashboard';
+        $this->load->view('templates/template_admin', $data);
     }
 
     public function job_applications() {
@@ -73,7 +69,7 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function addJob() {      
+    public function addJob() {
 
         $this->form_validation->set_rules('job_title', 'job_title', 'required');
         $this->form_validation->set_rules('opening_date', 'opening_date', 'required');
@@ -91,7 +87,7 @@ class Admin extends CI_Controller {
     }
 
     public function addJobTest() {
-        
+
         $this->form_validation->set_rules('test_name', 'test_name', 'required');
         $this->form_validation->set_rules('test_description', 'test_description', 'required');
         $this->form_validation->set_rules('pass_mark', 'pass_mark', 'required');
@@ -108,7 +104,7 @@ class Admin extends CI_Controller {
     }
 
     public function addJobTestQuestion() {
-        
+
         $this->form_validation->set_rules('test_id', 'test_id', 'required');
         $this->form_validation->set_rules('question', 'question', 'required');
         $this->form_validation->set_rules('answer_set', 'answer_set', 'required');
@@ -126,4 +122,10 @@ class Admin extends CI_Controller {
         }
     }
 
+    function checkAuth() {
+        $loggedIn = $this->session->userdata('jobsportaladminlogged_in');
+        if ($loggedIn == NULL) {
+            redirect('login/adminloginPage');
+        }
+    }
 }
