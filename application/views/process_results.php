@@ -36,7 +36,7 @@
                             <h6>
                                 <span style="font-weight: bold">Status:</span> 
                                 <?php
-                                if ($jobtestresults[0]->totalScore > $jobtestresults[0]->pass_mark) {
+                                if ($jobtestresults[0]->totalScore >= $jobtestresults[0]->pass_mark) {
                                     echo "<label class='badge badge-success'>SUCCESSFUL</label>";
                                 } else {
                                     echo "<label class='badge badge-danger'>UNSUCCESSFUL</label>";
